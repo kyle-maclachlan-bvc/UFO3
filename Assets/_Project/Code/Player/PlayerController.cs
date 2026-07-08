@@ -55,8 +55,12 @@ public class PlayerController : MonoBehaviour
         {
             WeatherManager.Instance.RainyWeather();
         }
+        else if (Keyboard.current.yKey.wasPressedThisFrame)
+        {
+            WeatherManager.Instance.SnowyWeather();
+        }
     }
-
+    
     private void FixedUpdate()
     {
         Move();

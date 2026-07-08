@@ -7,4 +7,5 @@ public class WeatherTypeSo : ScriptableObject
     public float windSpeed;
     public PhysicsMaterial currentFriction;
     public bool isRaining =  true;
+    public bool isSnowing = true;
 }

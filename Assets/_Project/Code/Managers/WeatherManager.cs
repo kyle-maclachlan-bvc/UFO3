@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class WeatherManager : MonoBehaviour
 {
@@ -10,12 +9,13 @@ public class WeatherManager : MonoBehaviour
     [SerializeField]private Vector3 direction;
     [SerializeField] float windSpeed = 1f;
     [SerializeField] WeatherTypeSo currentWeatherType;
-    private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
-    
+
     PlayerController _playerController;
     
+    private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
     private Material _currentSkyboxMaterial;
     private bool _isRaining;
+    private bool _isSnowing;
 
     private void Awake()
     {
@@ -30,15 +30,11 @@ public class WeatherManager : MonoBehaviour
 
         _currentSkyboxMaterial = RenderSettings.skybox;
         _weatherTypes.AddRange(Resources.LoadAll<WeatherTypeSo>("ScriptableObjects"));
-        var randomweather = Random.Range(0, _weatherTypes.Count);
-        AssignWeatherType(_weatherTypes[randomweather]);
-
     }
 
     private void Start()
     {
         _playerController = FindFirstObjectByType<PlayerController>();
-        
     }
 
     private void AssignWeatherType(WeatherTypeSo type)
@@ -47,11 +43,12 @@ public class WeatherManager : MonoBehaviour
         windSpeed = currentWeatherType.windSpeed;
         direction = currentWeatherType.windDirection;
         _isRaining = currentWeatherType.isRaining;
+        _isSnowing = currentWeatherType.isSnowing;
     }
 
     private void Update()
     {
-        if (_isRaining)
+        if (_isRaining || _isSnowing)
         {
             ApplyWind();
         }
@@ -59,7 +56,7 @@ public class WeatherManager : MonoBehaviour
 
     public void SunnyWeather()
     {
-        AssignWeatherType(_weatherTypes.Find(x => x.name == "Sunny"));
+        AssignWeatherType(_weatherTypes.Find(x => x.name == "SunnyWeather"));
         _currentSkyboxMaterial = newSkyboxMaterial[0];
         RenderSettings.skybox = _currentSkyboxMaterial;
     }
@@ -67,6 +64,12 @@ public class WeatherManager : MonoBehaviour
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "RainyWeather"));
         _currentSkyboxMaterial = newSkyboxMaterial[1];
+        RenderSettings.skybox = _currentSkyboxMaterial;
+    }
+    public void SnowyWeather()
+    {
+        AssignWeatherType(_weatherTypes.Find(x => x.name == "SnowyWeather"));
+        _currentSkyboxMaterial = newSkyboxMaterial[2];
         RenderSettings.skybox = _currentSkyboxMaterial;
     }
 
