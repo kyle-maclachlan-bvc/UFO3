@@ -677,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3527cfef5c680e478fed425a4e18625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeatherManager
+  playerObject: {fileID: 97312158}
   newSkyboxMaterial:
   - {fileID: 2100000, guid: de670e215fb4944419f1393c52b3f585, type: 2}
   - {fileID: 2100000, guid: 06d7ac7dd2927a4488cd73184a033380, type: 2}
@@ -1047,6 +1048,10 @@ PrefabInstance:
     - target: {fileID: 897478057894025578, guid: 19006860a94611c4ebad99bdae971801, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532359539299932443, guid: 19006860a94611c4ebad99bdae971801, type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

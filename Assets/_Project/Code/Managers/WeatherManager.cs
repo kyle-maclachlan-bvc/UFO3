@@ -4,7 +4,8 @@ using UnityEngine;
 public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance;
-    
+
+    [SerializeField] private GameObject playerObject;
     [SerializeField] private Material[] newSkyboxMaterial;
     [SerializeField]private Vector3 direction;
     [SerializeField] float windSpeed = 1f;
@@ -14,6 +15,8 @@ public class WeatherManager : MonoBehaviour
     
     private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
     private Material _currentSkyboxMaterial;
+    private PhysicsMaterial _currentFriction;
+    private BoxCollider _playerCollider;
     private bool _isRaining;
     private bool _isSnowing;
 
@@ -35,6 +38,7 @@ public class WeatherManager : MonoBehaviour
     private void Start()
     {
         _playerController = FindFirstObjectByType<PlayerController>();
+        _playerCollider = playerObject.GetComponent<BoxCollider>();
     }
 
     private void AssignWeatherType(WeatherTypeSo type)
@@ -42,6 +46,7 @@ public class WeatherManager : MonoBehaviour
         currentWeatherType = type;
         windSpeed = currentWeatherType.windSpeed;
         direction = currentWeatherType.windDirection;
+        _currentFriction = currentWeatherType.currentFriction;
         _isRaining = currentWeatherType.isRaining;
         _isSnowing = currentWeatherType.isSnowing;
     }
@@ -59,18 +64,22 @@ public class WeatherManager : MonoBehaviour
         AssignWeatherType(_weatherTypes.Find(x => x.name == "SunnyWeather"));
         _currentSkyboxMaterial = newSkyboxMaterial[0];
         RenderSettings.skybox = _currentSkyboxMaterial;
+        _playerCollider.material = _currentFriction;
+
     }
     public void RainyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "RainyWeather"));
         _currentSkyboxMaterial = newSkyboxMaterial[1];
         RenderSettings.skybox = _currentSkyboxMaterial;
+        _playerCollider.material = _currentFriction;
     }
     public void SnowyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "SnowyWeather"));
         _currentSkyboxMaterial = newSkyboxMaterial[2];
         RenderSettings.skybox = _currentSkyboxMaterial;
+        _playerCollider.material = _currentFriction;
     }
 
     private void ApplyWind()
