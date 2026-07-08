@@ -6,16 +6,18 @@ public class PlayerController : MonoBehaviour
 {
     #region References
     MyInputActions _inputActions;
-    private Rigidbody _rb;
+    public Rigidbody _rb;
     #endregion
 
     #region Serialized Fields
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    
     [Header("Ground Check Settings")]
     [SerializeField] LayerMask groundLayer;
     [SerializeField] private float maxDistance = 0.5f;
+    [SerializeField] private float radius = 0.5f;
     #endregion
     
     #region Private Fields
@@ -43,6 +45,19 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Movement.canceled -= OnMoveCanceled;
         _inputActions.Player.Jump.performed -= OnJumpPerformed;
     }
+
+    private void Update()
+    {
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            WeatherManager.Instance.SunnyWeather();
+        }
+        else if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            WeatherManager.Instance.RainyWeather();
+        }
+    }
+
     private void FixedUpdate()
     {
         Move();
@@ -74,12 +89,13 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        return Physics.SphereCast(ray, 0.2f, maxDistance,groundLayer);
+        return Physics.SphereCast(ray, radius, maxDistance,groundLayer);
     }
     void OnMovePerformed(InputAction.CallbackContext context)
     {
         _movementInput = context.ReadValue<float>();
         _movement = new Vector3(_movementInput, 0, 0);
+        
     }
     void OnMoveCanceled(InputAction.CallbackContext context)
     {
