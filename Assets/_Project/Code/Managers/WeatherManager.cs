@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class WeatherManager : MonoBehaviour
 {
+    #region Instance
+
     public static WeatherManager Instance;
+
+    #endregion
+
+    #region SerializedFields
 
     [SerializeField] private GameObject playerObject;
     [SerializeField] private Material[] newSkyboxMaterial;
@@ -11,14 +17,24 @@ public class WeatherManager : MonoBehaviour
     [SerializeField] float windSpeed = 1f;
     [SerializeField] WeatherTypeSo currentWeatherType;
 
-    PlayerController _playerController;
-    
-    private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
-    private Material _currentSkyboxMaterial;
-    private PhysicsMaterial _currentFriction;
-    private BoxCollider _playerCollider;
-    private bool _isRaining;
-    private bool _isSnowing;
+        #endregion
+
+    #region References
+
+        PlayerController _playerController;
+
+        #endregion
+
+    #region Private Fields
+
+        private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
+        private Material _currentSkyboxMaterial;
+        private PhysicsMaterial _currentFriction;
+        private BoxCollider _playerCollider;
+        private bool _isRaining;
+        private bool _isSnowing;
+
+        #endregion
 
     private void Awake()
     {
@@ -34,13 +50,11 @@ public class WeatherManager : MonoBehaviour
         _currentSkyboxMaterial = RenderSettings.skybox;
         _weatherTypes.AddRange(Resources.LoadAll<WeatherTypeSo>("ScriptableObjects"));
     }
-
     private void Start()
     {
         _playerController = FindFirstObjectByType<PlayerController>();
         _playerCollider = playerObject.GetComponent<BoxCollider>();
     }
-
     private void AssignWeatherType(WeatherTypeSo type)
     {
         currentWeatherType = type;
@@ -50,7 +64,6 @@ public class WeatherManager : MonoBehaviour
         _isRaining = currentWeatherType.isRaining;
         _isSnowing = currentWeatherType.isSnowing;
     }
-
     private void Update()
     {
         if (_isRaining || _isSnowing)
@@ -58,7 +71,6 @@ public class WeatherManager : MonoBehaviour
             ApplyWind();
         }
     }
-
     public void SunnyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "SunnyWeather"));
@@ -81,7 +93,6 @@ public class WeatherManager : MonoBehaviour
         RenderSettings.skybox = _currentSkyboxMaterial;
         _playerCollider.material = _currentFriction;
     }
-
     private void ApplyWind()
     {
         _playerController.rb.AddForce(direction * windSpeed, ForceMode.Force);
