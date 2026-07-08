@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,9 +7,9 @@ public class WeatherManager : MonoBehaviour
     public static WeatherManager Instance;
     
     [SerializeField] private Material[] newSkyboxMaterial;
-    [SerializeField]private Vector3 _direction;
-    [SerializeField] float _windSpeed = 1f;
-    [SerializeField] WeatherTypeSo _currentWeatherType;
+    [SerializeField]private Vector3 direction;
+    [SerializeField] float windSpeed = 1f;
+    [SerializeField] WeatherTypeSo currentWeatherType;
     private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
     
     PlayerController _playerController;
@@ -44,10 +43,10 @@ public class WeatherManager : MonoBehaviour
 
     private void AssignWeatherType(WeatherTypeSo type)
     {
-        _currentWeatherType = type;
-        _windSpeed = _currentWeatherType.windSpeed;
-        _direction = _currentWeatherType.windDirection;
-        _isRaining = _currentWeatherType.isRaining;
+        currentWeatherType = type;
+        windSpeed = currentWeatherType.windSpeed;
+        direction = currentWeatherType.windDirection;
+        _isRaining = currentWeatherType.isRaining;
     }
 
     private void Update()
@@ -73,6 +72,6 @@ public class WeatherManager : MonoBehaviour
 
     private void ApplyWind()
     {
-        _playerController._rb.AddForce(_direction * _windSpeed, ForceMode.Force);
+        _playerController.rb.AddForce(direction * windSpeed, ForceMode.Force);
     }
 }

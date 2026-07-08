@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     #region References
     MyInputActions _inputActions;
-    public Rigidbody _rb;
+    [HideInInspector] public Rigidbody rb;
     #endregion
 
     #region Serialized Fields
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _inputActions = new MyInputActions();
-        _rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
     private void OnEnable()
     {
@@ -79,11 +78,11 @@ public class PlayerController : MonoBehaviour
     }
     private void Move()
     {
-        _rb.AddForce(moveSpeed * _movement , ForceMode.Force);
+        rb.AddForce(moveSpeed * _movement , ForceMode.Force);
     }
     private void Jump()
     {
-        _rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
+        rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
         _shouldJump = false;
     }
     private bool IsGrounded()
