@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeatherManager : MonoBehaviour
+public partial class WeatherManager : MonoBehaviour
 {
     #region Instance
 
