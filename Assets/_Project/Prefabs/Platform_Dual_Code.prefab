@@ -496,6 +496,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5482911020743293152}
+  - component: {fileID: 6608351154877366183}
+  m_Layer: 3
   - component: {fileID: 4348928017108392821}
   m_Layer: 0
   m_Name: Platform_Dual_Code
@@ -520,6 +522,8 @@ Transform:
   - {fileID: 2972433979564485949}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6608351154877366183
+BoxCollider:
 --- !u!114 &4348928017108392821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +531,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7979911945399713028}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.59, y: 7.19, z: 5.66}
+  m_Center: {x: 0, y: -3.55, z: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47e7b8b6f6637554bbf8214d11099211, type: 3}

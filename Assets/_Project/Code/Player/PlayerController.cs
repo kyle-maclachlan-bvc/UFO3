@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    [Range(0f, 1f)] [SerializeField] private float airControlMultiplier = 0.2f;
     
     [Header("Ground Check Settings")]
     [SerializeField] LayerMask groundLayer;
@@ -44,22 +45,6 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Movement.canceled -= OnMoveCanceled;
         _inputActions.Player.Jump.performed -= OnJumpPerformed;
     }
-
-    private void Update()
-    {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            WeatherManager.Instance.SunnyWeather();
-        }
-        else if (Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            WeatherManager.Instance.RainyWeather();
-        }
-        else if (Keyboard.current.yKey.wasPressedThisFrame)
-        {
-            WeatherManager.Instance.SnowyWeather();
-        }
-    }
     
     private void FixedUpdate()
     {
@@ -67,22 +52,19 @@ public class PlayerController : MonoBehaviour
         
         if (_shouldJump)
         {
-            if (IsGrounded())
-            {
-                Jump();  
-                Debug.Log("Can Jump!");
-            }
-            else
-            {
-                Debug.Log("Can't Jump!");
-                _shouldJump = false;
-            }
-            
+            Jump();  
         }
     }
     private void Move()
     {
-        rb.AddForce(moveSpeed * _movement , ForceMode.Force);
+        Vector3 forceToApply = moveSpeed * _movement;
+
+        if (!IsGrounded())
+        {
+            forceToApply *= airControlMultiplier;
+        }
+
+        rb.AddForce(forceToApply, ForceMode.Force);
     }
     private void Jump()
     {
@@ -92,13 +74,12 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        return Physics.SphereCast(ray, radius, maxDistance,groundLayer);
+        return Physics.SphereCast(ray, radius, maxDistance, groundLayer);
     }
     void OnMovePerformed(InputAction.CallbackContext context)
     {
         _movementInput = context.ReadValue<float>();
         _movement = new Vector3(_movementInput, 0, 0);
-        
     }
     void OnMoveCanceled(InputAction.CallbackContext context)
     {
@@ -106,8 +87,9 @@ public class PlayerController : MonoBehaviour
     }
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        _shouldJump = true;
+        if (IsGrounded())
+        {
+            _shouldJump = true;
+        }
     }
-
-   
 }
