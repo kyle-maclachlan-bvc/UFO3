@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class PlatformMover : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class PlatformMover: MonoBehaviour
 {
     [Header("Movement Points")]
     [SerializeField] private Transform pointA;
@@ -11,20 +12,27 @@ public class PlatformMover : MonoBehaviour
     [SerializeField] private float arrivalThreshold = 0.1f;
 
     private Vector3 currentTarget;
+    private Rigidbody rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        
+        rb.isKinematic = true; 
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+
         transform.position = pointA.position;
         currentTarget = pointB.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        Vector3 nextPosition = Vector3.MoveTowards(rb.position, currentTarget, speed * Time.fixedDeltaTime);
         
-        if (Vector3.Distance(transform.position, currentTarget) < arrivalThreshold)
+        rb.MovePosition(nextPosition);
+        
+        if (Vector3.Distance(rb.position, currentTarget) < arrivalThreshold)
         {
-            
             if (currentTarget == pointB.position)
             {
                 currentTarget = pointA.position;

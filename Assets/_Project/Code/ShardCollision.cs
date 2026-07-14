@@ -6,8 +6,20 @@ public class ShardCollision : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.IncreaseScore();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
+    }
+
+    void OnDisable()
+    {
+        Invoke("CollectionMethod", 1.5f);
+    }
+
+    void CollectionMethod()
+    {
+        Destroy(gameObject);
+        GameManager.Instance.IncreaseScore();
+        sceneManager.Instance.LoadNextScene();
+        Time.timeScale = 1f;
     }
 }

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e8755b3055b4e448a91f1e5f08fc75, type: 3}
   m_Name: RainyWeather
   m_EditorClassIdentifier: Assembly-CSharp::WeatherTypeSo
-  windDirection: {x: 1, y: 0, z: 0}
-  windSpeed: 6
-  currentFriction: {fileID: 13400000, guid: e9352cb3c09717748ad027b8f89e5da2, type: 2}
+  windDirection: {x: -1, y: 0, z: 0}
+  windSpeed: 0.74
   isRaining: 1
   isSnowing: 0

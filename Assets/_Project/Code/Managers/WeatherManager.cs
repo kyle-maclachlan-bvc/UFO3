@@ -1,40 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
-public partial class WeatherManager : MonoBehaviour
+public class WeatherManager : MonoBehaviour
 {
     #region Instance
-
     public static WeatherManager Instance;
-
     #endregion
 
     #region SerializedFields
-
-    [SerializeField] private GameObject playerObject;
     [SerializeField] private Material[] newSkyboxMaterial;
-    [SerializeField]private Vector3 direction;
-    [SerializeField] float windSpeed = 1f;
-    [SerializeField] WeatherTypeSo currentWeatherType;
-
-        #endregion
+    [SerializeField] private Vector3 direction;
+    [SerializeField] private float windSpeed = 1f;
+    [SerializeField] private WeatherTypeSo currentWeatherType;
+    #endregion
 
     #region References
-
-        PlayerController _playerController;
-
-        #endregion
+    private PlayerController _playerController;
+    private BoxCollider _playerCollider;
+    #endregion
 
     #region Private Fields
-
-        private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
-        private Material _currentSkyboxMaterial;
-        private PhysicsMaterial _currentFriction;
-        private BoxCollider _playerCollider;
-        private bool _isRaining;
-        private bool _isSnowing;
-
-        #endregion
+    private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
+    private PhysicsMaterial _currentFriction;
+    private bool _isRaining;
+    private bool _isSnowing;
+    #endregion
 
     private void Awake()
     {
@@ -45,54 +36,106 @@ public partial class WeatherManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
-        _currentSkyboxMaterial = RenderSettings.skybox;
         _weatherTypes.AddRange(Resources.LoadAll<WeatherTypeSo>("ScriptableObjects"));
     }
-    private void Start()
+
+    private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+       
         _playerController = FindFirstObjectByType<PlayerController>();
-        _playerCollider = playerObject.GetComponent<BoxCollider>();
+        
+        if (_playerController != null)
+        {
+            _playerCollider = _playerController.GetComponent<BoxCollider>();
+        }
+
+        
+        ApplyWeatherForScene(scene.buildIndex);
     }
-    private void AssignWeatherType(WeatherTypeSo type)
+
+    private void ApplyWeatherForScene(int sceneIndex)
     {
-        currentWeatherType = type;
-        windSpeed = currentWeatherType.windSpeed;
-        direction = currentWeatherType.windDirection;
-        _currentFriction = currentWeatherType.currentFriction;
-        _isRaining = currentWeatherType.isRaining;
-        _isSnowing = currentWeatherType.isSnowing;
+        switch (sceneIndex)
+        {
+            case 0: 
+                SunnyWeather();
+                break;
+            case 1: 
+                SnowyWeather();
+                break;
+            case 2: 
+                RainyWeather();
+                break;
+        }
     }
+
     private void Update()
     {
-        if (_isRaining || _isSnowing)
+        
+        if ((_isRaining || _isSnowing) && _playerController != null && _playerController.rb != null)
         {
             ApplyWind();
         }
     }
+
+    private void AssignWeatherType(WeatherTypeSo type)
+    {
+        if (type == null) return;
+
+        currentWeatherType = type;
+        windSpeed = currentWeatherType.windSpeed;
+        direction = currentWeatherType.windDirection;
+        _isRaining = currentWeatherType.isRaining;
+        _isSnowing = currentWeatherType.isSnowing;
+
+        
+        if (_playerCollider != null)
+        {
+            _playerCollider.material = _currentFriction;
+        }
+    }
+
     public void SunnyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "SunnyWeather"));
-        _currentSkyboxMaterial = newSkyboxMaterial[0];
-        RenderSettings.skybox = _currentSkyboxMaterial;
-        _playerCollider.material = _currentFriction;
-
+        UpdateSkybox(0);
     }
+
     public void RainyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "RainyWeather"));
-        _currentSkyboxMaterial = newSkyboxMaterial[1];
-        RenderSettings.skybox = _currentSkyboxMaterial;
-        _playerCollider.material = _currentFriction;
+        UpdateSkybox(2); 
     }
+
     public void SnowyWeather()
     {
         AssignWeatherType(_weatherTypes.Find(x => x.name == "SnowyWeather"));
-        _currentSkyboxMaterial = newSkyboxMaterial[2];
-        RenderSettings.skybox = _currentSkyboxMaterial;
-        _playerCollider.material = _currentFriction;
+        UpdateSkybox(1); 
     }
+
+    private void UpdateSkybox(int index)
+    {
+        if (newSkyboxMaterial != null && index < newSkyboxMaterial.Length && newSkyboxMaterial[index] != null)
+        {
+            RenderSettings.skybox = newSkyboxMaterial[index];
+        }
+    }
+
     private void ApplyWind()
     {
         _playerController.rb.AddForce(direction * windSpeed, ForceMode.Force);

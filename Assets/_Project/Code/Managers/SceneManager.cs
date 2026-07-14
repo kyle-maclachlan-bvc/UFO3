@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour
+public class sceneManager : MonoBehaviour
 {
-    public static LevelManager Instance;
+    public static sceneManager Instance;
 
     void Awake()
     {
@@ -17,14 +16,6 @@ public class LevelManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
-    void Update()
-    {
-        if (Keyboard.current.uKey.wasPressedThisFrame)
-        {
-            LoadNextScene();
-        }
-    }
 
     public void LoadNextScene()
     {
@@ -35,7 +26,7 @@ public class LevelManager : MonoBehaviour
         {
             nextSceneIndex = 0;
         }
-
+        
         SceneManager.LoadScene(nextSceneIndex);
     }
     
@@ -44,5 +35,4 @@ public class LevelManager : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }
-    
 }

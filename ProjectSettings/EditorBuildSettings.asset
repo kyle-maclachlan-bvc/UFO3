@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Levels/02Snowy.unity
     guid: d8f6d0e25f9576747af5aa400803171a
+  - enabled: 1
+    path: Assets/_Project/Scenes/Levels/03Rainy.unity
+    guid: b8b5e6b8b033e0f4d9c32a2ce3b39dfe
+  - enabled: 1
+    path: Assets/_Project/Scenes/Levels/04End.unity
+    guid: cac63dbe61e56034cafe590f0d097c05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8473d0a606d857c4c948439cdaf30630, type: 3}
   m_UseUCBPForAssetBundles: 0
