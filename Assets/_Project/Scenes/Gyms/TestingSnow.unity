@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4274144020302149072, guid: 5d342a9bd387c8b4ca6854b585054960, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.587
+      value: 3.5493
       objectReference: {fileID: 0}
     - target: {fileID: 4274144020302149072, guid: 5d342a9bd387c8b4ca6854b585054960, type: 3}
       propertyPath: m_LocalPosition.y
@@ -198,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4274144020302149072, guid: 5d342a9bd387c8b4ca6854b585054960, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.329
+      value: -8.2367
       objectReference: {fileID: 0}
     - target: {fileID: 4274144020302149072, guid: 5d342a9bd387c8b4ca6854b585054960, type: 3}
       propertyPath: m_LocalRotation.w
@@ -562,6 +562,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2989764798631579220, guid: 6c91539e26b021e4cb6299e14ea81cdc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510476013016667611, guid: 6c91539e26b021e4cb6299e14ea81cdc, type: 3}
       propertyPath: m_Name
       value: Platform_XForm_Code
