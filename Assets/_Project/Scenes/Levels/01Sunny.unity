@@ -1907,6 +1907,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042598337}
   - component: {fileID: 2042598338}
+  - component: {fileID: 2042598339}
   m_Layer: 0
   m_Name: MANAGERS
   m_TagString: Untagged
@@ -1944,6 +1945,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95b0af1e323892489229d7986a4ddec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerDontDestroy
+--- !u!114 &2042598339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042598336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea33c9d6b40e55a48afb47437ed38673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouseLock
 --- !u!1 &2142333531
 GameObject:
   m_ObjectHideFlags: 0

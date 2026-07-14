@@ -17,12 +17,10 @@ public class WeatherManager : MonoBehaviour
 
     #region References
     private PlayerController _playerController;
-    private BoxCollider _playerCollider;
     #endregion
 
     #region Private Fields
     private List<WeatherTypeSo> _weatherTypes = new List<WeatherTypeSo>();
-    private PhysicsMaterial _currentFriction;
     private bool _isRaining;
     private bool _isSnowing;
     #endregion
@@ -49,21 +47,12 @@ public class WeatherManager : MonoBehaviour
 
     private void OnDisable()
     {
-        
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-       
         _playerController = FindFirstObjectByType<PlayerController>();
-        
-        if (_playerController != null)
-        {
-            _playerCollider = _playerController.GetComponent<BoxCollider>();
-        }
-
         
         ApplyWeatherForScene(scene.buildIndex);
     }
@@ -84,9 +73,9 @@ public class WeatherManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    // Changed to FixedUpdate so wind force doesn't multiply with higher framerates in the build
+    private void FixedUpdate()
     {
-        
         if ((_isRaining || _isSnowing) && _playerController != null && _playerController.rb != null)
         {
             ApplyWind();
@@ -102,12 +91,6 @@ public class WeatherManager : MonoBehaviour
         direction = currentWeatherType.windDirection;
         _isRaining = currentWeatherType.isRaining;
         _isSnowing = currentWeatherType.isSnowing;
-
-        
-        if (_playerCollider != null)
-        {
-            _playerCollider.material = _currentFriction;
-        }
     }
 
     public void SunnyWeather()

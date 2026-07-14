@@ -8001,7 +8001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7721651623367122604, guid: 27717634c446cfe44aa5d4e6eb8a84b4, type: 3}
       propertyPath: moveSpeed
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7721651623367122604, guid: 27717634c446cfe44aa5d4e6eb8a84b4, type: 3}
       propertyPath: airControlMultiplier
